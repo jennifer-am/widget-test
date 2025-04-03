@@ -4,45 +4,112 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/favicon.ico" />
-    <link
-      rel="preload"
-      href="/font/SourceSansPro-Bold.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href="/font/SourceSansPro-Regular.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href="/font/SourceSansPro-SemiBold.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <title>KKiaPay</title>
-    <script type="module" crossorigin src="/assets/index.10b4ae1e.js"></script>
-    <link rel="modulepreload" href="/assets/vendor.d8e203d8.js">
-    <link rel="stylesheet" href="/assets/index.b59ab822.css">
+    <script src="https://widget-v3-staging.kkiapay.me"></script>
+    <title>Integration de KKiapay Widget</title>
+    <style>
+      * {
+        font-size: 20px;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .input-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        font-weight: 600;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        -webkit-transition: 0.5s;
+        transition: 0.5s;
+        outline: none;
+      }
+
+      input:focus {
+        border: 2px solid #555;
+      }
+
+      .button-div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      button {
+        background-color: #4661b9;
+        color: white;
+        padding: 20px;
+        border: none;
+        border-radius: 5px;
+        margin-top: 20px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #354ea2;
+      }
+
+      button:active {
+        border: 1px solid rgb(133, 97, 194);
+      }
+    </style>
   </head>
+
   <body>
-    <noscript>
-      <strong>
-        We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work
-        properly without JavaScript enabled. Please enable it to continue.
-      </strong>
-    </noscript>
-    <div id="app" class="widget"></div>
-    
-    <script>
-      console.log = () => {};
-      console.error = () => {};
-    </script>
+    <form>
+      <div class="input-group">
+        <label for="fullname">Nom et Prénoms</label>
+        <input id="fullname" required type="text" />
+      </div>
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input id="email" required type="email" />
+      </div>
+      <div class="input-group">
+        <label for="amount">Montant</label>
+        <input id="amount" min="1" required type="number" />
+      </div>
+      <!-- <div class="input-group">
+        <label for="phone">Numéro de téléphone</label>
+        <input id="phone" required type="tel" />
+      </div> -->
+      <div class="button-div">
+        <button type="submit">Payer maintenant</button>
+      </div>
+    </form>
   </body>
+
+  <script>
+    let data = {};
+
+    const form = document.querySelector("form");
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      for (const el of form.elements) {
+        data[el.id] = el.value;
+      }
+
+      openKkiapayWidget({
+        amount: Number(data.amount),
+        fullname: data.fullname,
+        email: data.email,
+        key: "27ea89cc4ef97fe48fcdc1deb23b8f3e91a4ebf0", // staging
+      });
+    });
+  </script>
 </html>
